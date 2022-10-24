@@ -1,10 +1,9 @@
 package com.example.hometraing.controller;
 
-import com.example.hometraing.controller.request.SubCommentRequestDto;
+import com.example.hometraing.controller.request.ReCommentRequestDto;
 import com.example.hometraing.controller.response.ResponseDto;
-import com.example.hometraing.service.SubCommentService;
+import com.example.hometraing.service.ReCommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,29 +12,29 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public class SubCommentController {
+public class ReCommentController {
 
-    private final SubCommentService subCommentService;
+    private final ReCommentService reCommentService;
 
     //대댓글 작성
-    @PostMapping(value = "/sub-comment")
-    public ResponseDto<?> createComment(@RequestBody SubCommentRequestDto requestDto,
+    @PostMapping(value = "/recomment")
+    public ResponseDto<?> createComment(@RequestBody ReCommentRequestDto requestDto,
                                         HttpServletRequest request) {
-        return subCommentService.createSubComment(requestDto, request);
+        return reCommentService.createReComment(requestDto, request);
     }
 
     //대댓글 수정
-    @PutMapping(value = "/sub-comment/{id}")
-    public ResponseDto<?> updateSubComment(@PathVariable Long id, @RequestBody SubCommentRequestDto requestDto,
+    @PutMapping(value = "/recomment/{id}")
+    public ResponseDto<?> updateSubComment(@PathVariable Long id, @RequestBody ReCommentRequestDto requestDto,
                                            HttpServletRequest request) {
-        return subCommentService.updateSubComment(id, requestDto, request);
+        return reCommentService.updateReComment(id, requestDto, request);
     }
 
     //대댓글 삭제
-    @DeleteMapping(value = "/sub-comment/{id}")
+    @DeleteMapping(value = "/recomment/{id}")
     public ResponseDto<?> createComment(@PathVariable Long id,
                                         HttpServletRequest request) {
-        return subCommentService.deleteSubComment(id, request);
+        return reCommentService.deleteReComment(id, request);
     }
 
 //    @GetMapping("/sub-comment")

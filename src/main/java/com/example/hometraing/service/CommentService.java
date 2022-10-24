@@ -10,7 +10,7 @@ import com.example.hometraing.domain.Member;
 import com.example.hometraing.repository.BoardRepository;
 import com.example.hometraing.repository.CommentRepository;
 import com.example.hometraing.repository.MemberRepository;
-import com.example.hometraing.repository.SubCommentRepository;
+import com.example.hometraing.repository.ReCommentRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import static com.example.hometraing.controller.response.CommentResponseDto.*;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final SubCommentRepository recommentRepository;
+    private final ReCommentRepository recommentRepository;
     private final JPAQueryFactory jpaQueryFactory;
     private TokenProvider tokenProvider;
     private final BoardRepository boardRepository;

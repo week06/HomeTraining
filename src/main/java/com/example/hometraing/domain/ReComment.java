@@ -1,6 +1,6 @@
 package com.example.hometraing.domain;
 
-import com.example.hometraing.controller.request.SubCommentRequestDto;
+import com.example.hometraing.controller.request.ReCommentRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class SubComment extends Timestamped {
+public class ReComment extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class SubComment extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    public void update(SubCommentRequestDto requestDto) {
+    public void update(ReCommentRequestDto requestDto) {
         this.content = requestDto.getContent();
     }
 

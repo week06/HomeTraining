@@ -1,12 +1,12 @@
 package com.example.hometraing.service;
 
-import com.example.hometraing.controller.request.SubCommentRequestDto;
+import com.example.hometraing.controller.request.ReCommentRequestDto;
 import com.example.hometraing.controller.response.ResponseDto;
-import com.example.hometraing.controller.response.SubCommentResponseDto;
+import com.example.hometraing.controller.response.ReCommentResponseDto;
 import com.example.hometraing.domain.Comment;
 import com.example.hometraing.domain.Member;
-import com.example.hometraing.domain.SubComment;
-import com.example.hometraing.repository.SubCommentRepository;
+import com.example.hometraing.domain.ReComment;
+import com.example.hometraing.repository.ReCommentRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class SubCommentService {
+public class ReCommentService {
 
-    private final SubCommentRepository subCommentRepository;
+    private final ReCommentRepository reCommentRepository;
     private final TokenProvider tokenProvider;
     private final CommentService commentService;
 
     @Transactional
-    public ResponseDto<?> createSubComment(SubCommentRequestDto requestDto, HttpServletRequest request
+    public ResponseDto<?> createReComment(ReCommentRequestDto requestDto, HttpServletRequest request
     ) {
         Member member = validateMember(request);
         if (null == member) {
@@ -37,19 +37,19 @@ public class SubCommentService {
         if (null == comment)
             return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
 
-        SubComment subComment = SubComment.builder()
+        ReComment reComment = ReComment.builder()
                 .commentId(comment.getId())
                 .member(member)
                 .content(requestDto.getContent())
                 .build();
-        subCommentRepository.save(subComment);
+        reCommentRepository.save(reComment);
         return ResponseDto.success(
-                SubCommentResponseDto.builder()
-                        .id(subComment.getId())
+                ReCommentResponseDto.builder()
+                        .id(reComment.getId())
                         .author(member.getNickname())
-                        .content(subComment.getContent())
-                        .createdAt(subComment.getCreatedAt())
-                        .modifiedAt(subComment.getModifiedAt())
+                        .content(reComment.getContent())
+                        .createdAt(reComment.getCreatedAt())
+                        .modifiedAt(reComment.getModifiedAt())
                         .build()
         );
     }
@@ -61,29 +61,26 @@ public class SubCommentService {
             return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
         }
 
-        List<SubComment> subCommentList = subCommentRepository.findAllByMember(member);
-        List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
+        List<ReComment> reCommentList = reCommentRepository.findAllByMember(member);
+        List<ReCommentResponseDto> reCommentResponseDtoList = new ArrayList<>();
 
-        for (SubComment subComment : subCommentList) {
-            subCommentResponseDtoList.add(
-                    SubCommentResponseDto.builder()
-                            .id(subComment.getId())
-                            .author(subComment.getMember().getNickname())
-                            .content(subComment.getContent())
-                            .createdAt(subComment.getCreatedAt())
-                            .modifiedAt(subComment.getModifiedAt())
+        for (ReComment reComment : reCommentList) {
+            reCommentResponseDtoList.add(
+                    ReCommentResponseDto.builder()
+                            .id(reComment.getId())
+                            .author(reComment.getMember().getNickname())
+                            .content(reComment.getContent())
+                            .createdAt(reComment.getCreatedAt())
+                            .modifiedAt(reComment.getModifiedAt())
                             .build()
             );
         }
-        return ResponseDto.success(subCommentResponseDtoList);
+        return ResponseDto.success(reCommentResponseDtoList);
     }
 
     @Transactional
-    public ResponseDto<?> updateSubComment(
-            Long id,
-            SubCommentRequestDto requestDto,
-            HttpServletRequest request
-    ) {
+    public ResponseDto<?> updateReComment(Long id, ReCommentRequestDto requestDto,
+                                          HttpServletRequest request) {
         Member member = validateMember(request);
         if (null == member) {
             return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
@@ -93,32 +90,30 @@ public class SubCommentService {
         if (null == comment)
             return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
 
-        SubComment subComment = isPresentSubComment(id);
-        if (null == subComment) {
+        ReComment reComment = isPresentReComment(id);
+        if (null == reComment) {
             return ResponseDto.fail("NOT_FOUND", "sub comment id is not exist");
         }
 
-        if (subComment.validateMember(member)) {
+        if (reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "only author can update");
         }
 
-        subComment.update(requestDto);
+        reComment.update(requestDto);
         return ResponseDto.success(
-                SubCommentResponseDto.builder()
-                        .id(subComment.getId())
+                ReCommentResponseDto.builder()
+                        .id(reComment.getId())
                         .author(member.getNickname())
-                        .content(subComment.getContent())
-                        .createdAt(subComment.getCreatedAt())
-                        .modifiedAt(subComment.getModifiedAt())
+                        .content(reComment.getContent())
+                        .createdAt(reComment.getCreatedAt())
+                        .modifiedAt(reComment.getModifiedAt())
                         .build()
         );
     }
 
     @Transactional
-    public ResponseDto<?> deleteSubComment(
-            Long id,
-            HttpServletRequest request
-    ) {
+    public ResponseDto<?> deleteReComment(Long id,
+                                          HttpServletRequest request) {
         Member member = validateMember(request);
         if (null == member) {
             return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
@@ -128,23 +123,23 @@ public class SubCommentService {
         if (null == comment)
             return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
 
-        SubComment subComment = isPresentSubComment(id);
-        if (null == subComment) {
+        ReComment reComment = isPresentReComment(id);
+        if (null == reComment) {
             return ResponseDto.fail("NOT_FOUND", "sub comment id is not exist");
         }
 
-        if (subComment.validateMember(member)) {
+        if (reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "only author can update");
         }
 
-        subCommentRepository.delete(subComment);
+        reCommentRepository.delete(reComment);
         return ResponseDto.success("success");
     }
 
     @Transactional(readOnly = true)
-    public SubComment isPresentSubComment(Long id) {
-        Optional<SubComment> optionalSubComment = subCommentRepository.findById(id);
-        return optionalSubComment.orElse(null);
+    public ReComment isPresentReComment(Long id) {
+        Optional<ReComment> optionalReComment = reCommentRepository.findById(id);
+        return optionalReComment.orElse(null);
     }
 
     @Transactional
