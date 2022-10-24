@@ -98,7 +98,7 @@ public class TokenProvider {
 //    return new UsernamePasswordAuthenticationToken(principal, "", authorities);
 //  }
 
-    public Member getUserFromAuthentication() {
+    public Member getMemberFromAuthentication() { //User이라고 되어있어서 Member로 고쳤습니다
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
