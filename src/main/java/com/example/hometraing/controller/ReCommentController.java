@@ -2,7 +2,6 @@ package com.example.hometraing.controller;
 
 import com.example.hometraing.controller.request.ReCommentRequestDto;
 import com.example.hometraing.controller.response.ResponseDto;
-//import com.example.hometraing.service.ReCommentService;
 import com.example.hometraing.service.ReCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

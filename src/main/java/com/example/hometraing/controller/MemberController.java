@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController //프른트랑 잇게 될 경우에Controller로 바꿔야 될 수 있음추후 상황 파악 필요
-@RequestMapping("/public/member")
+@RequestMapping("/api/member")
 public class MemberController {
     private final MemberService memberService;
 
