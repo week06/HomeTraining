@@ -28,11 +28,9 @@ import static com.example.hometraing.domain.QMember.member;
 public class MemberService extends Timestamped {
 
     private final MemberRepository memberRepository;
-
     private final JPAQueryFactory jpaQueryFactory;
 
     private final PasswordEncoder passwordEncoder;
-
     private final TokenProvider tokenProvider;
     // 회원가입
     public ResponseDto<?> memberRegist(MemberRequestDto memberRequestDto) {

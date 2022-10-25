@@ -1,5 +1,6 @@
 package com.example.hometraing.domain;
 
+import com.example.hometraing.controller.request.CommentRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,9 @@ public class Comment extends Timestamped {
 // @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
 // private List<SubComment> subComments = new ArrayList<>();
 
+    public void update(CommentRequestDto requestDto) {
+        this.content = requestDto.getContent();
+    }
     public boolean validateMember(Member member) {
         return !this.member.equals(member);
     }
