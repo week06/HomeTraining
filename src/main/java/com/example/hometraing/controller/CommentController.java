@@ -30,7 +30,7 @@ public class CommentController {
 //    }
 
     //댓글수정
-    @PutMapping(value = "/commanet/{id}")
+    @PutMapping(value = "/comment/{id}")
     public ResponseDto<?> updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto,
                                         HttpServletRequest request) {
         return commentService.updateComment(id, requestDto, request);

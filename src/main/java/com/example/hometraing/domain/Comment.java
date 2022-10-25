@@ -28,7 +28,7 @@ public class Comment extends Timestamped {
     private Board board;
 
     @JoinColumn(name = "memberId", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
 //    private Long recomment;//댓글인지, 대댓글인지 구별하는 column(parent가 null이면 댓글, 아니면은 대댓글)
@@ -40,6 +40,7 @@ public class Comment extends Timestamped {
     public boolean validateMember(Member member) {
         return !this.member.equals(member);
     }
+
 
     public void update(CommentRequestDto requestDto) {
         this.content = requestDto.getContent();
