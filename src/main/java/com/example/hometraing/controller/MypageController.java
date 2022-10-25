@@ -9,29 +9,28 @@
 //@RequestMapping("/api/my")
 //public class MypageController {
 //
-//    private final BoardService boardService;
-//    private final CommentService commentService;
+//    private final MypageService mypageService;
 //
 //
-//    @PostMapping(value = "/boards")
+//    @RequestMapping(value = "/boards")
 //    public ResponseDto<?> seepost(@RequestBody BoardRequestDto requestDto,
 //                                     HttpServletRequest request) {
-//        return boardService.createPost(requestDto, request);
+//        return mypageService.createPost(requestDto, request);
 //    }
 //    @PostMapping(value = "/board")
 //    public ResponseDto<?> viewpost(@RequestBody BoardRequestDto requestDto,
 //                                     HttpServletRequest request) {
-//        return boardService.createPost(requestDto, request);
+//        return mypageServoce.createPost(requestDto, request);
 //    }
 //    @PostMapping(value = "/comments")
 //    public ResponseDto<?> seecomment(@RequestBody CommentRequestDto requestDto,
 //                                     HttpServletRequest request) {
-//        return CommentService.createPost(requestDto, request);
+//        return mypageService.createPost(requestDto, request);
 //    }
 //    @PostMapping(value = "/comment")
 //    public ResponseDto<?> mycomment(@RequestBody CommentRequestDto requestDto,
 //                                     HttpServletRequest request) {
-//        return CommentService.createPost(requestDto, request);
+//        return mypageService.createPost(requestDto, request);
 //    }
 //
 //
