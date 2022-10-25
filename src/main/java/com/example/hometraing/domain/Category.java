@@ -14,9 +14,29 @@ public enum Category {
     private int num;
     private String parts;
 
-    Category(int num, String parts){
+    Category(int num, String parts) {
         this.num = num;
         this.parts = parts;
     }
 
+
+    public static Category partsValue(int num) {
+        switch (num) {
+            case 0:
+                return ARM;
+            case 1:
+                return SHOULDER;
+            case 2:
+                return BACK;
+            case 3:
+                return ABS;
+            case 4:
+                return CHEST;
+            case 5:
+                return LEG;
+            case 6:
+                return ALLBODY;
+        }
+        return null;
+    }
 }
