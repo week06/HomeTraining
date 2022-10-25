@@ -68,31 +68,20 @@ public class BoardService {
 
     // 게시글 작성 (S3 이미지 및 동영상 업로드 포함)
     public ResponseEntity<?> writeBoard(List<MultipartFile> multipartFile, HttpServletRequest request) {
-        // 합치게 되면 토큰 값이 있어야 작동할 수 있도록 한다
-        // 지금은 임의적으로 등록되어 있는 유저의 정보를 임시로 직접 사용하도록 한다.
 
-        // 로그인 기능이 정상적으로 합쳐진다면 해제
-        //if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-        //    return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
-        //}
+        if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
+//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+        }
 
-        //Member member = tokenProvider.getMemberFromAuthentication();
+        Member member = tokenProvider.getMemberFromAuthentication();
 
-        //  임의로 생성한 멤버를 가지고 온다.
-        Member member1 = jpaQueryFactory
-                .selectFrom(member)
-                .where(member.id.eq(1L))
-                .fetchOne();
-
-
-//        assert member1 != null;
         Board board =
                 Board.builder()
                         .title(request.getParameter("title"))
-                        .author(member1.getNickname())
+                        .author(member.getNickname())
                         .content(request.getParameter("content"))
                         .category(Category.partsValue(Integer.parseInt(request.getParameter("category"))))
-                        .member(member1)
+                        .member(member)
                         .build();
         boardRepository.save(board);
 
@@ -129,32 +118,20 @@ public class BoardService {
     // 게시글 수정 (미디어 파일 수정)
     @Transactional
     public ResponseEntity<?> updateBoard(List<MultipartFile> multipartFile, Long id, HttpServletRequest request) {
-        // 합치게 되면 토큰 값이 있어야 작동할 수 있도록 한다
-        // 지금은 임의적으로 등록되어 있는 유저의 정보를 임시로 직접 사용하도록 한다.
-
-        // 로그인 기능이 정상적으로 합쳐진다면 해제
-        //if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-        //    return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
-        //}
-        //Member member = tokenProvider.getMemberFromAuthentication();
-
-        // 임시 신규 유저를 생성하여 테스트한다.
-        Member member1 = jpaQueryFactory
-                .selectFrom(member)
-                .where(member.id.eq(1L))
-                .fetchOne();
+        if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
+//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+        }
+        Member member = tokenProvider.getMemberFromAuthentication();
 
         Board board1 = jpaQueryFactory
                 .selectFrom(board)
-                .where(board.id.eq(id).and(board.member.eq(member1)))
+                .where(board.id.eq(id).and(board.member.eq(member)))
                 .fetchOne();
 
         // 임시 조치
         if (board1 == null) {
             return null;
         }
-
-        //10번 게시글을 예로 들자
 
         List<Media> mediaList = jpaQueryFactory
                 .selectFrom(media)
@@ -178,7 +155,7 @@ public class BoardService {
         jpaQueryFactory
                 .update(board)
                 .set(board.content, request.getParameter("content"))
-                .where(board.id.eq(id).and(board.member.eq(member1)))
+                .where(board.id.eq(id).and(board.member.eq(member)))
                 .execute();
 
         em.clear();
@@ -199,24 +176,14 @@ public class BoardService {
     // 게시글 삭제
     @Transactional
     public ResponseEntity<?> deleteBoard(Long id, HttpServletRequest request) {
-        // 합치게 되면 토큰 값이 있어야 작동할 수 있도록 한다
-        // 지금은 임의적으로 등록되어 있는 유저의 정보를 임시로 직접 사용하도록 한다.
-
-        // 로그인 기능이 정상적으로 합쳐진다면 해제
-        //if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-        //    return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
-        //}
-        //Member member = tokenProvider.getMemberFromAuthentication();
-
-        // 임시 신규 유저를 생성하여 테스트한다.
-        Member member1 = jpaQueryFactory
-                .selectFrom(member)
-                .where(member.id.eq(1L))
-                .fetchOne();
+        if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
+//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+        }
+        Member member = tokenProvider.getMemberFromAuthentication();
 
         Board board1 = jpaQueryFactory
                 .selectFrom(board)
-                .where(board.id.eq(id).and(board.member.eq(member1)))
+                .where(board.id.eq(id).and(board.member.eq(member)))
                 .fetchOne();
 
         // 임시 조치
@@ -237,20 +204,16 @@ public class BoardService {
                 .where(board.id.eq(id))
                 .execute();
 
-        return ResponseEntity.ok("삭제 성공");
+        return ResponseEntity.ok(true);
     }
 
 
     // 게시글 1개 조회
     public ResponseEntity<?> getBoard(Long id, HttpServletRequest request) {
-        // 합치게 되면 토큰 값이 있어야 작동할 수 있도록 한다
-        // 지금은 임의적으로 등록되어 있는 유저의 정보를 임시로 직접 사용하도록 한다.
 
-        // 로그인 기능이 정상적으로 합쳐진다면 해제
-        //if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-        //    return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
-        //}
-        //Member member = tokenProvider.getMemberFromAuthentication();
+        if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
+//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+        }
 
         Board board1 = jpaQueryFactory
                 .selectFrom(board)
@@ -278,14 +241,9 @@ public class BoardService {
 
     // 게시글 전체 목록 조회
     public ResponseEntity<?> getAllBoard(HttpServletRequest request) {
-        // 합치게 되면 토큰 값이 있어야 작동할 수 있도록 한다
-        // 지금은 임의적으로 등록되어 있는 유저의 정보를 임시로 직접 사용하도록 한다.
-
-        // 로그인 기능이 정상적으로 합쳐진다면 해제
-        //if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-        //    return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
-        //}
-        //Member member = tokenProvider.getMemberFromAuthentication();
+        if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
+//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+        }
 
         List<Board> boards = jpaQueryFactory
                 .selectFrom(board)

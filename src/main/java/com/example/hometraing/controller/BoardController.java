@@ -1,6 +1,5 @@
 package com.example.hometraing.controller;
 
-import com.example.hometraing.controller.response.ResponseDto;
 import com.example.hometraing.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +36,6 @@ public class BoardController {
         // @RequestPart를 사용하여 FE 쪽에서 요청받은 미디어 파일들을 multipartFile 타입으로 전달받음
         // FE에서 기입한 게시글 제목, 게시글 내용, 게시글 카테고리를 HttpServletRequest 로 전달받음
 
-        // 파일들이 제대로 전달되었는지 확인
-//        for (MultipartFile multipartFile1 : multipartFile) {
-//            System.out.println("업로드될 파일 : " + multipartFile1.getOriginalFilename());
-//        }
-
         return boardService.writeBoard(multipartFile, request);
 
     }
@@ -53,12 +47,6 @@ public class BoardController {
     public ResponseEntity<?> updateBoard(@RequestPart(value = "data", required = false) List<MultipartFile> multipartFile,
                                          @PathVariable Long id,
                                          HttpServletRequest request) {
-
-        System.out.println("수정 내용 : " + request.getParameter("content"));
-        System.out.println("게시글 id : " + id);
-        for (MultipartFile multipartFile1 : multipartFile) {
-            System.out.println("수정 업로드될 파일 : " + multipartFile1.getOriginalFilename());
-        }
 
         return boardService.updateBoard(multipartFile, id, request);
     }

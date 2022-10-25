@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -28,9 +29,9 @@ public class MemberController {
     public  ResponseDto<?> login (@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse response ) {
         return memberService.login(requestDto , response);
     }
-//    @PostMapping(value="/logout")
-//    public ResponseDto<?> logout(HttpServletRequest request) {
-//        return memberService.logout(request);
-//    }
+    @PostMapping(value="/logout")
+    public ResponseDto<?> logout(HttpServletRequest request) {
+        return memberService.logout(request);
+    }
 
 }
