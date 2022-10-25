@@ -72,29 +72,29 @@ public class CommentService {
     }
 
     //댓글 전체 조회
-    @Transactional
-    public ResponseDto<?> getAllCommentsByBoard(Long Id) {
-        Board board = boardService.isPresentBoard(Id);
-        System.out.println(board);
-        if (null == board) {
-            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
-        }
-
-        List<Comment> commentList = commentRepository.findAllByBoard(board);
-        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-
-        for (Comment comment : commentList) {
-            commentResponseDtoList.add(
-                    builder()
-                            .id(comment.getId())
-                            .content(comment.getContent())
-                            .createdAt(comment.getCreatedAt())
-                            .modifiedAt(comment.getModifiedAt())
-                            .build()
-            );
-        }
-        return ResponseDto.success(commentResponseDtoList);
-    }
+//    @Transactional
+//    public ResponseDto<?> getAllCommentsByBoard(Long Id) {
+//        Board board = boardService.isPresentBoard(Id);
+//        System.out.println(board);
+//        if (null == board) {
+//            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+//        }
+//
+//        List<Comment> commentList = commentRepository.findAllByBoard(board);
+//        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+//
+//        for (Comment comment : commentList) {
+//            commentResponseDtoList.add(
+//                    builder()
+//                            .id(comment.getId())
+//                            .content(comment.getContent())
+//                            .createdAt(comment.getCreatedAt())
+//                            .modifiedAt(comment.getModifiedAt())
+//                            .build()
+//            );
+//        }
+//        return ResponseDto.success(commentResponseDtoList);
+//    }
 
     //댓글 수정
     @Transactional
@@ -154,14 +154,14 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (comment.validateMember(member)) {
-            return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
+        if (comment.validateMember(member)) { //기본값이 true
+            return ResponseDto.fail("BAD_REQUEST", "작성자만 삭제할 수 있습니다.");
         }
 
         commentRepository.delete(comment);
         return ResponseDto.success("댓글 삭제 완료");
     }
-
+//
     @Transactional
     public Comment isPresentComment(Long id) {
         Optional<Comment> optionalComment = commentRepository.findById(id);
