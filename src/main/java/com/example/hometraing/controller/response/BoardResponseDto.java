@@ -3,12 +3,15 @@ package com.example.hometraing.controller.response;
 import com.example.hometraing.domain.Category;
 import com.example.hometraing.domain.Comment;
 import com.example.hometraing.domain.Media;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+@AllArgsConstructor
 @Builder
 @Getter
 public class BoardResponseDto { // 최종적으로 FE로 전달될 json 데이터들

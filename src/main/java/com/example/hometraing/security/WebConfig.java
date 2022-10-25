@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -34,9 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:3000",
                         "https://localhost:3000",
                         "https://127.0.0.1:3000"
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-        ;
+                ).allowedMethods("GET", "POST", "PUT", "DELETE");
 
-    }
+   }
 }
