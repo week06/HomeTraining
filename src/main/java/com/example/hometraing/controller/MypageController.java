@@ -12,7 +12,7 @@
 //    private final MypageService mypageService;
 //
 //
-//    @PostMapping(value = "/boards")
+//    @RequestMapping(value = "/boards")
 //    public ResponseDto<?> seepost(@RequestBody BoardRequestDto requestDto,
 //                                     HttpServletRequest request) {
 //        return mypageService.createPost(requestDto, request);
