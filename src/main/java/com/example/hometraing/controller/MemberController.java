@@ -25,10 +25,14 @@ public class MemberController {
     public ResponseDto<?> memberRegist(@RequestBody MemberRequestDto memberRequestDto){
         return memberService.memberRegist(memberRequestDto);
     }
+
+    // 로그인
     @PostMapping(value = "/login")
     public  ResponseDto<?> login (@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse response ) {
         return memberService.login(requestDto , response);
     }
+
+    //로그아웃
     @PostMapping(value="/logout")
     public ResponseDto<?> logout(HttpServletRequest request) {
         return memberService.logout(request);

@@ -6,13 +6,16 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.hometraing.controller.response.BoardResponseDto;
+
+import com.example.hometraing.domain.*;
+import com.example.hometraing.error.ErrorCode;
 import com.example.hometraing.domain.Board;
 import com.example.hometraing.domain.Category;
 import com.example.hometraing.domain.Media;
 import com.example.hometraing.domain.Member;
+
 import com.example.hometraing.repository.BoardRepository;
 import com.example.hometraing.repository.MediaRepository;
-import com.example.hometraing.repository.MemberRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +34,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.hometraing.domain.QMedia.media;
 import static com.example.hometraing.domain.QBoard.board;
+import static com.example.hometraing.domain.QComment.comment;
+import static com.example.hometraing.domain.QMedia.media;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -43,13 +46,8 @@ import static com.example.hometraing.domain.QBoard.board;
 public class BoardService {
 
     private final EntityManager em;
-
     private final JPAQueryFactory jpaQueryFactory;
-
     private final TokenProvider tokenProvider;
-
-    private final MemberRepository memberRepository;
-
     private final BoardRepository boardRepository;
     private final MediaRepository mediaRepository;
 
@@ -63,10 +61,20 @@ public class BoardService {
     public ResponseEntity<?> writeBoard(List<MultipartFile> multipartFile, HttpServletRequest request) {
 
         if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
         }
 
+        // 헤더에 엑세스 토큰 없으면 "MEMBER_NOT_FOUND" , "로그인이 필요합니다." 노출
+        if (null == request.getHeader("Authorization")) {
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+        }
+
+        // Member 인증통과 안되면, INVALID_TOKEN , "Token이 유효하지 않습니다." 노출
         Member member = tokenProvider.getMemberFromAuthentication();
+
+        if (null == member) {
+            return ResponseEntity.badRequest().body(ErrorCode.UNUSEFUL_TOKEN.getMessage());
+        }
 
         Board board =
                 Board.builder()
@@ -76,6 +84,7 @@ public class BoardService {
                         .category(Category.partsValue(Integer.parseInt(request.getParameter("category"))))
                         .member(member)
                         .build();
+
         boardRepository.save(board);
 
         List<Media> medias = new ArrayList<>();
@@ -88,6 +97,8 @@ public class BoardService {
                             .author(board.getAuthor())
                             .content(board.getContent())
                             .category(board.getCategory())
+                            .createdAt(board.getCreatedAt())
+                            .modifiedAt(board.getModifiedAt())
                             .build()
             );
         } else {
@@ -103,6 +114,8 @@ public class BoardService {
                         .content(board.getContent())
                         .category(board.getCategory())
                         .medias(medias)
+                        .createdAt(board.getCreatedAt())
+                        .modifiedAt(board.getModifiedAt())
                         .build()
         );
     }
@@ -112,18 +125,28 @@ public class BoardService {
     @Transactional
     public ResponseEntity<?> updateBoard(List<MultipartFile> multipartFile, Long id, HttpServletRequest request) {
         if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
         }
+
+        // 헤더에 엑세스 토큰 없으면 "MEMBER_NOT_FOUND" , "로그인이 필요합니다." 노출
+        if (null == request.getHeader("Authorization")) {
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+        }
+
+        // Member 인증통과 안되면, INVALID_TOKEN , "Token이 유효하지 않습니다." 노출
         Member member = tokenProvider.getMemberFromAuthentication();
 
+        if (null == member) {
+            return ResponseEntity.badRequest().body(ErrorCode.UNUSEFUL_TOKEN.getMessage());
+        }
         Board board1 = jpaQueryFactory
                 .selectFrom(board)
                 .where(board.id.eq(id).and(board.member.eq(member)))
                 .fetchOne();
 
-        // 임시 조치
+      
         if (board1 == null) {
-            return null;
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_BOARD.getMessage());
         }
 
         List<Media> mediaList = jpaQueryFactory
@@ -161,6 +184,8 @@ public class BoardService {
                         .content(board1.getContent())
                         .category(board1.getCategory())
                         .medias(medias)
+                        .createdAt(board1.getCreatedAt())
+                        .modifiedAt(board1.getModifiedAt())
                         .build()
         );
     }
@@ -170,18 +195,28 @@ public class BoardService {
     @Transactional
     public ResponseEntity<?> deleteBoard(Long id, HttpServletRequest request) {
         if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
         }
+
+        // 헤더에 엑세스 토큰 없으면 "MEMBER_NOT_FOUND" , "로그인이 필요합니다." 노출
+        if (null == request.getHeader("Authorization")) {
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+        }
+
+        // Member 인증통과 안되면, INVALID_TOKEN , "Token이 유효하지 않습니다." 노출
         Member member = tokenProvider.getMemberFromAuthentication();
+
+        if (null == member) {
+            return ResponseEntity.badRequest().body(ErrorCode.UNUSEFUL_TOKEN.getMessage());
+        }
 
         Board board1 = jpaQueryFactory
                 .selectFrom(board)
                 .where(board.id.eq(id).and(board.member.eq(member)))
                 .fetchOne();
 
-        // 임시 조치
         if (board1 == null) {
-            return null;
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_BOARD.getMessage());
         }
 
         // 일반적인 JPA 를 사용했을 때는 cascade를 걸어놓으면 게시글이 삭제 되었을떄 댓글같은 자식 Entity 데이터들도 같이 삭제되었지만
@@ -205,7 +240,19 @@ public class BoardService {
     public ResponseEntity<?> getBoard(Long id, HttpServletRequest request) {
 
         if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+        }
+
+        // 헤더에 엑세스 토큰 없으면 "MEMBER_NOT_FOUND" , "로그인이 필요합니다." 노출
+        if (null == request.getHeader("Authorization")) {
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+        }
+
+        // Member 인증통과 안되면, INVALID_TOKEN , "Token이 유효하지 않습니다." 노출
+        Member member = tokenProvider.getMemberFromAuthentication();
+
+        if (null == member) {
+            return ResponseEntity.badRequest().body(ErrorCode.UNUSEFUL_TOKEN.getMessage());
         }
 
         Board board1 = jpaQueryFactory
@@ -218,6 +265,11 @@ public class BoardService {
                 .where(media.board.eq(board1))
                 .fetch();
 
+        List<Comment> comments = jpaQueryFactory
+                .selectFrom(comment)
+                .where(comment.board.eq(board1))
+                .fetch();
+
         // 댓글 기능과 합쳐 진다면 게시글에 존재하는 댓글들 모두 다 보여져야 함.
 
         return ResponseEntity.ok(
@@ -228,6 +280,9 @@ public class BoardService {
                         .content(board1.getContent())
                         .category(board1.getCategory())
                         .medias(medias)
+                        .comments(comments)
+                        .createdAt(board1.getCreatedAt())
+                        .modifiedAt(board1.getModifiedAt())
                         .build()
         );
     }
@@ -235,7 +290,7 @@ public class BoardService {
     // 게시글 전체 목록 조회
     public ResponseEntity<?> getAllBoard(HttpServletRequest request) {
         if(!tokenProvider.validateToken(request.getHeader("Refresh-Token"))){
-//            return ResponseDto.fail("NOT_EXIST_TOKEN","토큰이 존재하지 않습니다.");
+            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
         }
 
         List<Board> boards = jpaQueryFactory
@@ -251,6 +306,8 @@ public class BoardService {
                             .title(board.getTitle())
                             .author(board.getAuthor())
                             .category(board.getCategory())
+                            .createdAt(board.getCreatedAt())
+                            .modifiedAt(board.getModifiedAt())
                             .build()
             );
         }
