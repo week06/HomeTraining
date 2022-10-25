@@ -40,6 +40,8 @@ public class CommentService {
     private final MemberRepository memberRepository;
 
     private final MemberService memberService;
+    private final BoardService boardService;
+
 
     @Transactional
     public ResponseDto<?> createComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request){
