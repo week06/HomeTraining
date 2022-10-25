@@ -1,5 +1,6 @@
 package com.example.hometraing.security;
 
+import com.example.hometraing.config.CorsConfig;
 import com.example.hometraing.security.jwt.AccessDeniedHandlerException;
 import com.example.hometraing.security.jwt.AuthenticationEntryPointException;
 import com.example.hometraing.security.jwt.TokenProvider;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -28,6 +30,7 @@ public class WebSecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationEntryPointException authenticationEntryPointException;
     private final AccessDeniedHandlerException accessDeniedHandlerException;
+    private final CorsConfig corsConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -75,6 +78,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
+                .addFilter(corsConfig.corsFilter())
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
 
         return http.build();
