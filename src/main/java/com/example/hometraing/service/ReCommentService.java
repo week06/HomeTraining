@@ -30,12 +30,12 @@ public class ReCommentService {
     ) {
         Member member = validateMember(request);
         if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
+            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
         Comment comment = commentService.isPresentComment(requestDto.getCommentId());
         if (null == comment)
-            return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
 
         ReComment reComment = ReComment.builder()
                 .commentId(comment.getId())
@@ -54,49 +54,49 @@ public class ReCommentService {
         );
     }
 
-    @Transactional(readOnly = true)
-    public ResponseDto<?> getAllSubCommentByMember(HttpServletRequest request) {
-        Member member = validateMember(request);
-        if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
-        }
-
-        List<ReComment> reCommentList = reCommentRepository.findAllByMember(member);
-        List<ReCommentResponseDto> reCommentResponseDtoList = new ArrayList<>();
-
-        for (ReComment reComment : reCommentList) {
-            reCommentResponseDtoList.add(
-                    ReCommentResponseDto.builder()
-                            .id(reComment.getId())
-                            .author(reComment.getMember().getNickname())
-                            .content(reComment.getContent())
-                            .createdAt(reComment.getCreatedAt())
-                            .modifiedAt(reComment.getModifiedAt())
-                            .build()
-            );
-        }
-        return ResponseDto.success(reCommentResponseDtoList);
-    }
+//    @Transactional(readOnly = true)
+//    public ResponseDto<?> getAllSubCommentByMember(HttpServletRequest request) {
+//        Member member = validateMember(request);
+//        if (null == member) {
+//            return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
+//        }
+//
+//        List<ReComment> reCommentList = reCommentRepository.findAllByMember(member);
+//        List<ReCommentResponseDto> reCommentResponseDtoList = new ArrayList<>();
+//
+//        for (ReComment reComment : reCommentList) {
+//            reCommentResponseDtoList.add(
+//                    ReCommentResponseDto.builder()
+//                            .id(reComment.getId())
+//                            .author(reComment.getMember().getNickname())
+//                            .content(reComment.getContent())
+//                            .createdAt(reComment.getCreatedAt())
+//                            .modifiedAt(reComment.getModifiedAt())
+//                            .build()
+//            );
+//        }
+//        return ResponseDto.success(reCommentResponseDtoList);
+//    }
 
     @Transactional
     public ResponseDto<?> updateReComment(Long id, ReCommentRequestDto requestDto,
                                           HttpServletRequest request) {
         Member member = validateMember(request);
         if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
+            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
         Comment comment = commentService.isPresentComment(requestDto.getCommentId());
         if (null == comment)
-            return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
 
         ReComment reComment = isPresentReComment(id);
         if (null == reComment) {
-            return ResponseDto.fail("NOT_FOUND", "sub comment id is not exist");
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
         if (reComment.validateMember(member)) {
-            return ResponseDto.fail("BAD_REQUEST", "only author can update");
+            return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
 
         reComment.update(requestDto);
@@ -116,20 +116,20 @@ public class ReCommentService {
                                           HttpServletRequest request) {
         Member member = validateMember(request);
         if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "refresh token is invalid");
+            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
         Comment comment = commentService.isPresentComment(id);
         if (null == comment)
-            return ResponseDto.fail("NOT_FOUND", "comment id is not exist");
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
 
         ReComment reComment = isPresentReComment(id);
         if (null == reComment) {
-            return ResponseDto.fail("NOT_FOUND", "sub comment id is not exist");
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
         if (reComment.validateMember(member)) {
-            return ResponseDto.fail("BAD_REQUEST", "only author can update");
+            return ResponseDto.fail("BAD_REQUEST", "작성자만 삭제할 수 있습니다.");
         }
 
         reCommentRepository.delete(reComment);

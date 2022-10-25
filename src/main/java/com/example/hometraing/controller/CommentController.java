@@ -26,10 +26,10 @@ public class CommentController {
     }
 
     //댓글 조회
-    @GetMapping(value = "/comment/{id}")
-    public ResponseDto<?> getAllComments(@PathVariable Long id) {
-        return commentService.getAllCommentsByBoard(id);
-    }
+//    @GetMapping(value = "/comment/{id}")
+//    public ResponseDto<?> getAllComments(@PathVariable Long id) {
+//        return commentService.getAllCommentsByBoard(id);
+//    }
 
     //댓글 수정
     @PutMapping(value = "/commanet/{id}")

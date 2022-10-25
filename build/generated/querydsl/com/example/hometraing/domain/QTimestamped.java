@@ -8,8 +8,6 @@ import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
 
-import java.time.LocalDateTime;
-
 
 /**
  * QTimestamped is a Querydsl query type for Timestamped
@@ -21,7 +19,7 @@ public class QTimestamped extends EntityPathBase<Timestamped> {
 
     public static final QTimestamped timestamped = new QTimestamped("timestamped");
 
-    public final DateTimePath<LocalDateTime> createdAt = createDateTime("createdAt", LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = createDateTime("modifiedAt", java.time.LocalDateTime.class);
 

@@ -38,8 +38,6 @@ public class QComment extends EntityPathBase<Comment> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final NumberPath<Long> recomment = createNumber("recomment", Long.class);
-
     public QComment(String variable) {
         this(Comment.class, forVariable(variable), INITS);
     }

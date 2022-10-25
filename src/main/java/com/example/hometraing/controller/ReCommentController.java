@@ -2,6 +2,7 @@ package com.example.hometraing.controller;
 
 import com.example.hometraing.controller.request.ReCommentRequestDto;
 import com.example.hometraing.controller.response.ResponseDto;
+//import com.example.hometraing.service.ReCommentService;
 import com.example.hometraing.service.ReCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class ReCommentController {
         return reCommentService.deleteReComment(id, request);
     }
 
-//    @GetMapping("/sub-comment")
+//    @GetMapping("/recomment")
 //    public ResponseDto<?> getAllPostByMember(HttpServletRequest request) {
 //        return subCommentService.getAllSubCommentByMember(request);
 //    }
