@@ -54,7 +54,7 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                // 지금은 아직 기능들을 합치지않았으므로 만든 모든 기능들의 권한을 열어둔다.
+                // 인증 정보를 통해야지만 동작할 수 있는 url은 public 대신 auth 로 만든다.
                 .antMatchers("/api/**").permitAll()
 //                .antMatchers("/board/public/**").permitAll()
 //                .antMatchers("/comment/public/**").permitAll()
