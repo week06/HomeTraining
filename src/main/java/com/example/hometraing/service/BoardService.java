@@ -1,13 +1,11 @@
 package com.example.hometraing.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.hometraing.controller.response.BoardResponseDto;
-import com.example.hometraing.controller.response.ResponseDto;
 import com.example.hometraing.domain.Board;
 import com.example.hometraing.domain.Category;
 import com.example.hometraing.domain.Media;
@@ -22,17 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -41,7 +35,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.example.hometraing.domain.QMedia.media;
-import static com.example.hometraing.domain.QMember.member;
 import static com.example.hometraing.domain.QBoard.board;
 
 @Slf4j
@@ -61,7 +54,7 @@ public class BoardService {
     private final MediaRepository mediaRepository;
 
     @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+    private final String bucket;
 
     private final AmazonS3 amazonS3;
 
