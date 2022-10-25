@@ -54,7 +54,7 @@ public class BoardService {
     private final MediaRepository mediaRepository;
 
     @Value("${cloud.aws.s3.bucket}")
-    private final String bucket;
+    private String bucket;
 
     private final AmazonS3 amazonS3;
 
