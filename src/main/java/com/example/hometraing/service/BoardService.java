@@ -75,7 +75,6 @@ public class BoardService {
 
         Member member = tokenProvider.getMemberFromAuthentication();
 
-//        assert member1 != null;
         Board board =
                 Board.builder()
                         .title(request.getParameter("title"))
@@ -205,7 +204,7 @@ public class BoardService {
                 .where(board.id.eq(id))
                 .execute();
 
-        return ResponseEntity.ok("삭제 성공");
+        return ResponseEntity.ok(true);
     }
 
 
