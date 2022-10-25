@@ -134,7 +134,6 @@ public class BoardService {
             return null;
         }
 
-        //10번 게시글을 예로 들자
         List<Media> mediaList = jpaQueryFactory
                 .selectFrom(media)
                 .where(media.board.eq(board1))
