@@ -30,12 +30,6 @@ public class Member extends Timestamped {
     @Column(nullable = false)
     private String nickname;
 
-//    @JsonIgnore // 일단 포함시키지 않음
-//    private File image;
-//
-//    @JsonIgnore // 일단 포함시키지 않음
-//    private File video;
-
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Board> board;
 
