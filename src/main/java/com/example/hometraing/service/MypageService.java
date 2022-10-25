@@ -68,7 +68,6 @@
 //        List<BoardResponseDto> myBoardResponseDtoList = new ArrayList<>(); // 배열의 크기를 알수 없을때 사용하면 좋은 ArrayList를 사용해서 myPostResponseDtoList 를 선언하고
 //
 //
-////        List<Post> list = member.getLikePosts();
 //        for (Board board : myBoardList) { // 반복문으로 돌면서 myPostResponseDtoList 에 .add 로 넣어준다.
 //            myBoardResponseDtoList.add(
 //                    BoardResponseDto.builder() // builder 패턴으로 필요한것을 선별적으로 넣어준다.
