@@ -40,4 +40,9 @@ public class Member extends Timestamped {
     private List<Board> board;
 
 
+    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
+        return passwordEncoder.matches(password, this.password);
+    }
+
+
 }
