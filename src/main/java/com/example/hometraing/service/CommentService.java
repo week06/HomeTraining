@@ -1,6 +1,5 @@
 package com.example.hometraing.service;
 
-
 import com.example.hometraing.controller.request.CommentRequestDto;
 import com.example.hometraing.controller.response.CommentResponseDto;
 import com.example.hometraing.controller.response.ResponseDto;
@@ -13,12 +12,15 @@ import com.example.hometraing.repository.MemberRepository;
 import com.example.hometraing.repository.ReCommentRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jdk.jshell.Snippet;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
+//import static com.example.hometraing.controller.response.CommentResponseDto.builder;
 
 @RequiredArgsConstructor
 @Service
@@ -30,13 +32,15 @@ public class CommentService {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     private final BoardRepository boardRepository;
 
     private final MemberRepository memberRepository;
 
     private final MemberService memberService;
+    private final BoardService boardService;
+
 
     @Transactional
     public ResponseDto<?> createComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request) {
@@ -50,7 +54,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentPost(requestDto.getBoardId());
+        Board board = boardService.isPresentBoard(boardId);
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -115,7 +119,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentBoard(requestDto.getBoardId());
+        Board board = boardService.isPresentBoard(boardId);
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
