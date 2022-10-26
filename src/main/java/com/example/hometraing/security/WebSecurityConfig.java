@@ -41,7 +41,6 @@ public class WebSecurityConfig {
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String SECRET_KEY = "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWhhbmdoYWUtYXNzaWdubWVudC1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3Qtc2VjcmV0LWtleQo=";
-
         http.cors();
 
         http.csrf().disable()

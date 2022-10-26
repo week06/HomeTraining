@@ -26,16 +26,12 @@ public class WebConfig implements WebMvcConfigurer {
         return bean;
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080", "http://3.36.106.108",
-                        "http://localhost:3000",
-                        "https://localhost:3000",
-                        "https://127.0.0.1:3000"
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-        ;
-
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry){
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:3000")
+//                .allowedHeaders("*")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE")
+//        ;
+//    }
 }

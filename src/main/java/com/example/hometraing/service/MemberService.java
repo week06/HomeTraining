@@ -62,7 +62,6 @@ public class MemberService extends Timestamped {
                 MemberResponseDto.builder()
                         .id(member1.getId())
                         .memberid(member1.getMemberid())
-                        .password(member1.getPassword())
                         .nickname(member1.getNickname())
                         .build()
         );
@@ -91,7 +90,6 @@ public class MemberService extends Timestamped {
                 MemberResponseDto.builder()
                         .id(member.getId()) // member 에서 id를 가저오고
                         .memberid(member.getMemberid()) // member에서 멤버id 가져오고
-                        .password(member.getPassword()) // member에서 password 가져오고
                         .nickname(member.getNickname())
                         .build()
         );
