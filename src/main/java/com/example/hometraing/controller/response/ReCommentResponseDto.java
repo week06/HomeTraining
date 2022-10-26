@@ -6,24 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentResponseDto {
-
+public class ReCommentResponseDto {
     private Long id;
-
-    // 게시글 작성자 (현재 로그인한 유저 정보)
     private String author;
-
-    // 작성한 게시글 내용
     private String content;
-
+    private int likes;
     private LocalDateTime createdAt;
-
-    // 수정일자
     private LocalDateTime modifiedAt;
 }

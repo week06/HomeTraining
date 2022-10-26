@@ -7,8 +7,14 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.hometraing.controller.request.BoardRequestDto;
 import com.example.hometraing.controller.response.BoardResponseDto;
+
 import com.example.hometraing.domain.*;
 import com.example.hometraing.error.ErrorCode;
+import com.example.hometraing.domain.Board;
+import com.example.hometraing.domain.Category;
+import com.example.hometraing.domain.Media;
+import com.example.hometraing.domain.Member;
+
 import com.example.hometraing.repository.BoardRepository;
 import com.example.hometraing.repository.MediaRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
@@ -32,7 +38,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.example.hometraing.domain.QBoard.board;
-
 import static com.example.hometraing.domain.QComment.comment;
 import static com.example.hometraing.domain.QMedia.media;
 
@@ -408,6 +413,12 @@ public class BoardService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
     }
+
+//    @Transactional
+//    public Board isPresentBoard(Long id) {
+//        Optional<Board> optionalBoard = boardRepository.findById(id);
+//        return optionalBoard.orElse(null);
+//    }
 
 
 }

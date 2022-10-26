@@ -10,8 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static com.example.hometraing.domain.QMember.member;
-
 import javax.annotation.Resource;
 import java.util.Optional;
 
