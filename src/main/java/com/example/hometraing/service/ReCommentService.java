@@ -96,7 +96,7 @@ public class ReCommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (reComment.validateMember(member)) {
+        if (!reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
 
@@ -130,7 +130,7 @@ public class ReCommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (reComment.validateMember(member)) {
+        if (!reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 삭제할 수 있습니다.");
         }
 

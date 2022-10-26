@@ -1,6 +1,5 @@
 package com.example.hometraing.controller;
 
-import com.example.hometraing.controller.response.ResponseDto;
 import com.example.hometraing.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

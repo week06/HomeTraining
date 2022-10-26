@@ -2,6 +2,7 @@ package com.example.hometraing.service;
 
 
 import com.example.hometraing.controller.request.CommentRequestDto;
+import com.example.hometraing.controller.response.CommentResponseDto;
 import com.example.hometraing.controller.response.ResponseDto;
 import com.example.hometraing.domain.Board;
 import com.example.hometraing.domain.Comment;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
-import static com.example.hometraing.controller.response.CommentResponseDto.builder;
+//import static com.example.hometraing.controller.response.CommentResponseDto.builder;
 
 @RequiredArgsConstructor
 @Service
@@ -46,15 +47,19 @@ public class CommentService {
                     "로그인이 필요합니다.");
         }
 
-        Member member = validateMember(request);
-        if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-        }
+//        Member member = validateMember(request);
+//        if (null == member) {
+//            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+//        }
 
-        Board board = boardService.isPresentPost(requestDto.getBoardId());
-        if (null == board) {
-            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
-        }
+//        Board board = boardService.isPresentPost(requestDto.getBoardId());
+//        if (null == board) {
+//            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+//        }
+
+        Member member = memberRepository.findById(1L).orElseThrow();
+
+        Board board = boardRepository.findById(1L).orElseThrow();
 
         Comment comment = Comment.builder()
                 .member(member)
@@ -63,7 +68,7 @@ public class CommentService {
                 .build();
         commentRepository.save(comment);
         return ResponseDto.success(
-                builder()
+                CommentResponseDto.builder()
                         .id(comment.getId())
                         .author(comment.getMember().getNickname())
                         .content(comment.getContent())
@@ -111,15 +116,19 @@ public class CommentService {
                     "로그인이 필요합니다.");
         }
 
-        Member member = validateMember(request);
-        if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-        }
+//        Member member = validateMember(request);
+//        if (null == member) {
+//            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+//        }
 
 //        Board board = boardService.isPresentBoard(requestDto.getBoardId());
 //        if (null == board) {
 //            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
 //        }
+
+        Member member = memberRepository.findById(1L).orElseThrow();
+
+        Board board = boardRepository.findById(1L).orElseThrow();
 
         Comment comment = isPresentComment(boardId);
         if (null == comment) {
@@ -132,7 +141,7 @@ public class CommentService {
 
         comment.update(requestDto);
         return ResponseDto.success(
-                builder()
+                CommentResponseDto.builder()
                         .id(comment.getId())
 //                        .nickname(comment.getMember().getNickname())
                         .content(comment.getContent())
@@ -154,10 +163,14 @@ public class CommentService {
                     "로그인이 필요합니다.");
         }
 
-        Member member = validateMember(request);
-        if (null == member) {
-            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-        }
+//        Member member = validateMember(request);
+//        if (null == member) {
+//            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
+//        }
+
+        Member member = memberRepository.findById(1L).orElseThrow();
+
+        Board board = boardRepository.findById(1L).orElseThrow();
 
         Comment comment = isPresentComment(id);
         if (null == comment) {

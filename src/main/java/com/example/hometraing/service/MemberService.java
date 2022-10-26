@@ -95,17 +95,17 @@ public class MemberService extends Timestamped {
                         .build()
         );
     }
-//    public ResponseDto<?> logout (HttpServletRequest request){
-//        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {  //tokenProvider에서 가저온 토큰값이 heaader에서 가저온 Refresh-Token이 아니라면,
-//            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다."); //"INVALID_TOKEN", "Token이 유효하지 않습니다" ResponseDto로 리턴
-//        }
-//        Member member = (Member) tokenProvider.getUserFromAuthentication();
-//        if (null == member) { //member가 null이라면, "MEMBER_NOT_FOUND", "사용자를 찾을 수 없습니다" ResponseDto로 리턴
-//            return ResponseDto.fail("MEMBER_NOT_FOUND",
-//                    "사용자를 찾을 수 없습니다.");
-//        }
-//        return tokenProvider.deleteRefreshToken(member); // deleteRefreshToken
-//    }
+    public ResponseDto<?> logout (HttpServletRequest request){
+        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {  //tokenProvider에서 가저온 토큰값이 heaader에서 가저온 Refresh-Token이 아니라면,
+            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다."); //"INVALID_TOKEN", "Token이 유효하지 않습니다" ResponseDto로 리턴
+        }
+        Member member = (Member) tokenProvider.getMemberFromAuthentication();
+        if (null == member) { //member가 null이라면, "MEMBER_NOT_FOUND", "사용자를 찾을 수 없습니다" ResponseDto로 리턴
+            return ResponseDto.fail("MEMBER_NOT_FOUND",
+                    "사용자를 찾을 수 없습니다.");
+        }
+        return tokenProvider.deleteRefreshToken(member); // deleteRefreshToken
+    }
     /* readOnly = true: 데이터의 변경이 없는 읽기 전용 메서드에 사용, 영속성 컨텍스트를 플러시 하지 않으므로 약간의 성능 향상*/
     @Transactional(readOnly = true)
     public Member isPresentMember(String memberid) {

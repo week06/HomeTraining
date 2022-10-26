@@ -1,5 +1,6 @@
 package com.example.hometraing.controller.request;
 
+import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentRequestDto {
-//    private Long boardId;
+    private Long boardId;
     private String content;
-
 }

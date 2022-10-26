@@ -20,7 +20,7 @@ public class CommentResponseDto {
 
     private String content;
 
-    private List<ReCommentResponseDto> subComments;
+    private List<ReCommentResponseDto> reComments;
 
     private LocalDateTime createdAt;
 
