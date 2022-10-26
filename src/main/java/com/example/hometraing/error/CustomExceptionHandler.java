@@ -14,6 +14,7 @@ import java.util.List;
 public class CustomExceptionHandler {
 
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleApiRequestException(MethodArgumentNotValidException ex) {
         List<RestApiException> errors=new ArrayList<>();

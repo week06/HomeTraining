@@ -18,7 +18,9 @@ public enum ErrorCode {
     ALERADY_SAVED_NICKNAME(409,"중복된 닉네임입니다."),
 
     //500 INTERNAL SERVER ERROR
-    INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 고객센터에 문의해주세요");
+    INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 고객센터에 문의해주세요"),
+    NOT_FOUND_MEMBER(400, "유저 정보가 일치하지 않습니다.");
+
 
     private final int status;
     private final String message;

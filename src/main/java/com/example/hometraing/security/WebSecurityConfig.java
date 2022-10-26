@@ -54,7 +54,6 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-
                 .and()
                 .authorizeRequests()
                 // 인증 정보를 통해야지만 동작할 수 있는 url은 public 대신 auth 로 만든다.

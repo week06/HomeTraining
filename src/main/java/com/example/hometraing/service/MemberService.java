@@ -84,7 +84,6 @@ public class MemberService extends Timestamped {
             return ResponseDto.fail("INVALID_MEMBER", "사용자를 찾을 수 없습니다.");
         }
 
-
         TokenDto tokenDto = tokenProvider.generateTokenDto(member);
         tokenToHeaders(tokenDto, response);
 

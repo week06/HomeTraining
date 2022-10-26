@@ -31,6 +31,11 @@ public class MemberController {
     }
 
     // 로그인
+//    @PostMapping(value = "/login")
+//    public  ResponseDto<?> login (@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse response ) {
+//        return memberService.login(requestDto , response);
+//    }
+
     @PostMapping(value = "/login")
     public  ResponseDto<?> login (@RequestBody @Valid LoginRequestDto requestDto, HttpServletResponse response ) {
         return memberService.login(requestDto , response);
