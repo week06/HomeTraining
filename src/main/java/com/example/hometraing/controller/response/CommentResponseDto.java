@@ -14,9 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentResponseDto {
     private Long id;
+
+    // 게시글 작성자 (현재 로그인한 유저 정보)
     private String author;
+
+    // 작성한 게시글 내용
     private String content;
-    private List<ReCommentResponseDto> reComments;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime modifiedAt;
 }
