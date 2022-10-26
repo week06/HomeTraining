@@ -13,7 +13,7 @@ import java.util.List;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    //회원가입 정보 확인
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleApiRequestException(MethodArgumentNotValidException ex) {
         List<RestApiException> errors=new ArrayList<>();
@@ -26,4 +26,20 @@ public class CustomExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errors);
     }
+
+//    @ExceptionHandler(MethodNotSupportedException.class)
+//    public ResponseEntity<Object> methodNotAllowed(MethodNotSupportedException ex) {
+//        List<RestApiException> errors=new ArrayList<>();
+//
+//        for( FieldError field : ex.get){
+//            errors.add(new RestApiException(field.getField(),field.getDefaultMessage()));
+//        }
+//
+//        return ResponseEntity
+//                .status(HttpStatus.BAD_REQUEST)
+//                .body(errors);
+//    }
+
+
+
 }

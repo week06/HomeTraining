@@ -17,7 +17,9 @@ public class CommentResponseDto { // 최종적으로 FE로 전달될 json 데이
     // 작성한 게시글 내용
     private String content;
 
+    // 생성일자
     private LocalDateTime createdAt;
 
+    // 수정일자
     private LocalDateTime modifiedAt;
 }

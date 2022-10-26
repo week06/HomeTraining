@@ -33,7 +33,9 @@ public class BoardResponseDto { // 최종적으로 FE로 전달될 json 데이�
     // 댓글 기능 추합 시, 해당 게시글에 존재하는 댓글들 출력 필요 가능성 잇음.
     private List<Comment> comments;
 
+    // 생성일자
     private LocalDateTime createdAt;
 
+    // 수정일자
     private LocalDateTime modifiedAt;
 }

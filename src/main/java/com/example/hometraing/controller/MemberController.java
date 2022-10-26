@@ -23,6 +23,10 @@ public class MemberController {
     // 회원가입
     @PostMapping("/signup")
     public ResponseDto<?> memberRegist(@RequestBody MemberRequestDto memberRequestDto){
+        System.out.println("아이디 : " + memberRequestDto.getMemberid());
+        System.out.println("비밀번호 : " + memberRequestDto.getPassword());
+        System.out.println("닉네임 : " + memberRequestDto.getNickname());
+
         return memberService.memberRegist(memberRequestDto);
     }
 
