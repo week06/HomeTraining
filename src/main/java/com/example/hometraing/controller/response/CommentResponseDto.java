@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponseDto {
-
     private Long id;
 
     // 게시글 작성자 (현재 로그인한 유저 정보)
@@ -24,6 +23,5 @@ public class CommentResponseDto {
 
     private LocalDateTime createdAt;
 
-    // 수정일자
     private LocalDateTime modifiedAt;
 }

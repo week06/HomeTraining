@@ -27,11 +27,8 @@ import static com.example.hometraing.domain.QMember.member;
 public class MemberService extends Timestamped {
 
     private final MemberRepository memberRepository;
-
     private final JPAQueryFactory jpaQueryFactory;
-
     private final PasswordEncoder passwordEncoder;
-
     private final TokenProvider tokenProvider;
 
     // 회원가입
@@ -45,6 +42,10 @@ public class MemberService extends Timestamped {
             return ResponseDto.fail("ALREADY_EXIST_MEMBER", "중복된 계정입니다.");
         }
 
+
+        if (!memberRequestDto.getPassword().equals(memberRequestDto.getPasswordconfirm())) {
+            return ResponseDto.fail("WRONG_MATCH_PASSWORD", "패스워드를 재확인 해주십시오.");
+        }
 
         member1 =
                 Member.builder()
@@ -62,6 +63,7 @@ public class MemberService extends Timestamped {
                 MemberResponseDto.builder()
                         .id(member1.getId())
                         .memberid(member1.getMemberid())
+                        .password(member1.getPassword())
                         .nickname(member1.getNickname())
                         .build()
         );
@@ -71,13 +73,12 @@ public class MemberService extends Timestamped {
 
     @Transactional /* 로그인 - 유저 아이디 유효성 체크*/
     public ResponseDto<?> login(LoginRequestDto requestDto, HttpServletResponse response) {
-
         Member member = isPresentMember(requestDto.getMemberid());
-
         if (null == member) {  // member가 null이면 "MEMBER_NOT_FOUND" , "사용자를 찾을 수 없습니다"  예외처리
-            return ResponseDto.fail("MEMBER_NOT_FOUND","사용자를 찾을 수 없어여.");
+            return ResponseDto.fail("MEMBER_NOT_FOUND",
+                    "사용자를 찾을 수 없어여.");
         }
-
+        
         /*  비밀번호 유효성 검증  - Jwt token 을 encoding한 내용에 들어있는 비밀번호와  Dto에서 가저온 비밀번호가 같지 않으면 "INVALIED_MEMEBER" , "사용자를 찾을 수 없습니다." 예외처리 */
         if (!member.validatePassword(passwordEncoder, requestDto.getPassword())) {
             return ResponseDto.fail("INVALID_MEMBER", "사용자를 찾을 수 없습니다.");
@@ -90,6 +91,7 @@ public class MemberService extends Timestamped {
                 MemberResponseDto.builder()
                         .id(member.getId()) // member 에서 id를 가저오고
                         .memberid(member.getMemberid()) // member에서 멤버id 가져오고
+                        .password(member.getPassword()) // member에서 password 가져오고
                         .nickname(member.getNickname())
                         .build()
         );
@@ -120,4 +122,8 @@ public class MemberService extends Timestamped {
         response.addHeader("Refresh-Token", tokenDto.getRefreshToken()); // "Refresh-Token", "tokenDto에서 가저온 RefreshToken을 hearder에 add
         response.addHeader("Access-Token-Expire-Time", tokenDto.getAccessTokenExpiresIn().toString()); // "Access-Token-Expire-Time" , "tokenDto에서 가저온 토큰만료시간을 string타입으로 add.
     }
+
+  }
+
 }
+
