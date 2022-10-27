@@ -19,10 +19,12 @@ public class ReComment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //대댓글을 작성할 멤버 id
     @JoinColumn(name = "memberId", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    //댓글 id
     private Long commentId;
 
     @Column(nullable = false)
@@ -30,9 +32,5 @@ public class ReComment extends Timestamped {
 
     public void update(ReCommentRequestDto requestDto) {
         this.content = requestDto.getContent();
-    }
-
-    public boolean validateMember(Member member) {
-        return !this.member.equals(member);
     }
 }

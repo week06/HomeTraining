@@ -25,7 +25,7 @@ public class ReCommentController {
 
     //대댓글 수정
     @PutMapping(value = "/recomment/{id}")
-    public ResponseDto<?> updateSubComment(@PathVariable Long id, @RequestBody ReCommentRequestDto requestDto,
+    public ResponseDto<?> updateReComment(@PathVariable Long id, @RequestBody ReCommentRequestDto requestDto,
                                            HttpServletRequest request) {
         return reCommentService.updateReComment(id, requestDto, request);
     }

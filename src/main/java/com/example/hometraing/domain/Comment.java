@@ -23,10 +23,12 @@ public class Comment extends Timestamped {
     @Column(nullable = false, length = 500)
     private String content;
 
+    //댓글이 작성될 게시글 id
     @JoinColumn(name = "boardId", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
+    //댓글을 작성한 멤버 id
     @JoinColumn(name = "memberId", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -34,10 +36,6 @@ public class Comment extends Timestamped {
     // comment recomment 연관 관계 설정
 //    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<SubComment> subComments = new ArrayList<>();
-
-    public boolean validateMember(Member member) {
-        return !this.member.equals(member);
-    }
 
     public void update(CommentRequestDto requestDto) {
         this.content = requestDto.getContent();
