@@ -27,23 +27,12 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
-
-    private final ReCommentRepository recommentRepository;
-
-    private final JPAQueryFactory jpaQueryFactory;
-
     private final TokenProvider tokenProvider;
-
-    private final BoardRepository boardRepository;
-
-    private final MemberRepository memberRepository;
-
-    private final MemberService memberService;
     private final BoardService boardService;
 
 
     @Transactional
-    public ResponseDto<?> createComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
         if (null == request.getHeader("Authorization")) {
             return ResponseDto.fail("MEMBER_NOT_FOUND",
                     "로그인이 필요합니다.");
@@ -54,7 +43,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentBoard(boardId);
+        Board board = boardService.isPresentBoard(requestDto.getBoardId());
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -119,7 +108,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentBoard(boardId);
+        Board board = boardService.isPresentBoard(requestDto.getBoardId());
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -129,7 +118,7 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (comment.validateMember(member)) {
+        if (!comment.getMember().getNickname().equals(member.getNickname())) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
 
@@ -168,7 +157,7 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (comment.validateMember(member)) {
+        if (!comment.getMember().getNickname().equals(member.getNickname())) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
 
