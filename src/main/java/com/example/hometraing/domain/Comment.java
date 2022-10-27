@@ -20,6 +20,9 @@ public class Comment extends Timestamped {
     @Id
     private Long id;
 
+    @Column(nullable = false)
+    private String author;
+
     @Column(nullable = false, length = 500)
     private String content;
 
