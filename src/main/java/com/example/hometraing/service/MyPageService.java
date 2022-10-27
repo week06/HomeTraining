@@ -157,7 +157,7 @@ public class MyPageService {
             myCommentslist.add(
                     CommentResponseDto.builder()
                             .id(comment.getId())
-                            .author(comment.getAuthor())
+                            .author(comment.getMember().getNickname())
                             .content(comment.getContent())
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
@@ -197,7 +197,7 @@ public class MyPageService {
         return ResponseEntity.ok(
                 CommentResponseDto.builder()
                         .id(comment.getId())
-                        .author(comment.getAuthor())
+                        .author(comment.getMember().getNickname())
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
