@@ -44,7 +44,7 @@ public class CommentService {
         if (null == member) {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
-
+        
         //게시글 id를 가지고와서 존재여부 확인
         Board board = boardService.isPresentBoard(requestDto.getBoardId());
         if (null == board) {
