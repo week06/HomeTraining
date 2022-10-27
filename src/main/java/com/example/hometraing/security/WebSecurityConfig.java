@@ -58,10 +58,8 @@ public class WebSecurityConfig {
                 // 인증 정보를 통해야지만 동작할 수 있는 url은 public 대신 auth 로 만든다.
                 .antMatchers("/api/member/signup").permitAll()
                 .antMatchers("/api/member/login").permitAll()
-                .antMatchers("/api/board/**").permitAll()
+//                .antMatchers("/api/board/**").permitAll()
 //                .antMatchers("/api/boards/**").permitAll()
-//                .antMatchers("/board/public/**").permitAll()
-//                .antMatchers("/comment/public/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
