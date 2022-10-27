@@ -77,7 +77,7 @@ public class BoardController {
     @GetMapping("/boards")
     public ResponseEntity<?> getAllBoard(HttpServletRequest request) { // 요청 인증 정보 확인을 위한 HttpServletRequest.
         // 현재 구현한 사이트 자체가 로그인한 사람들만이 이용할 수 있기 때문에 인증 정보가 필요하다.
-
+        System.out.println("토큰확인"+request.getHeader("Authorization"));
         return boardService.getAllBoard(request);
     }
 

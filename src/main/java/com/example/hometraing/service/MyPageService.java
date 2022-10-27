@@ -149,7 +149,7 @@ public class MyPageService {
                     // 댓글들 저장, (네이버 카페에 있는 나의 작성 댓글 조회를 참고하여 타이틀 대신 내용 그 자리를 대신한다.)
                     CommentResponseDto.builder()
                             .id(comment.getId())
-                            .author(comment.getAuthor())
+//                            .author(comment.getAuthor())
                             .content(comment.getContent())
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
@@ -177,7 +177,7 @@ public class MyPageService {
         return ResponseEntity.ok(
                 CommentResponseDto.builder()
                         .id(comment.getId())
-                        .author(comment.getAuthor())
+//                        .author(comment.getAuthor())
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())

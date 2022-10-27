@@ -63,9 +63,9 @@ public class BoardService {
     // Token 및 인증 정보 확인 (한 메소드로 따로 구성하여 만듬)
     public ResponseEntity<?> authorizeToken(HttpServletRequest request){
         // 리프레시 토큰 여부 확인
-        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
-            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
-        }
+//        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
+//            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+//        }
 
         // 액세스 토큰 여부 확인
         if (null == request.getHeader("Authorization")) {
@@ -312,9 +312,9 @@ public class BoardService {
     // 게시글 전체 목록 조회
     public ResponseEntity<?> getAllBoard(HttpServletRequest request) {
         // 리프레시 토큰 여부 확인
-        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
-            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
-        }
+//        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
+//            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+//        }
 
         // 액세스 토큰 여부 확인
         if (null == request.getHeader("Authorization")) {
