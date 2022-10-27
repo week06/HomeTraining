@@ -32,19 +32,15 @@
 
  -  메소드와 매개변수 사이에 공백이 없도록 코딩한다.
 
-![sdf.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7f2f9e7e-73f7-4b97-98f1-56caa9a75aca/sdf.png)
 
 **(3) 카멜 표기법 준수**
 
  - 메소드 명은 첫 글자는 소문자, 뒤에 이어지는 다른 단어의 첫 글자는 대문자로 표기하도록 한다.
 
-![sdfhsdfh.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5d466ce2-537b-44f8-8333-d6da8063368b/sdfhsdfh.png)
-
 **(4) if, for 문 등의 명령어 사용 시 ‘{}’ 중괄호 반드시 작성**
 
  - 중괄호를 작성하지 않아도 실행이 된다는 특성이 있다고는 하지만 가독성이 떨어질 수도 있기 때문에 반드시 작성하도록 한다.
 
-![ehfjjhjjj.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6651beef-04c1-4a2e-83d8-360cb642b1ae/ehfjjhjjj.png)
 
 **(5)  출력할 변수와 변수 사이에 공백 넣기**
 
