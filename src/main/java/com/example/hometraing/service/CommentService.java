@@ -31,6 +31,7 @@ public class CommentService {
     private final BoardService boardService;
 
 
+    //댓글 생성
     @Transactional
     public ResponseDto<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
         if (null == request.getHeader("Authorization")) {
@@ -38,11 +39,13 @@ public class CommentService {
                     "로그인이 필요합니다.");
         }
 
+        //멤버와 비교해서 token 값을 비교한다.
         Member member = validateMember(request);
         if (null == member) {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
+        //게시글 id를 가지고와서 존재여부 확인
         Board board = boardService.isPresentBoard(requestDto.getBoardId());
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
@@ -113,11 +116,13 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
 
+        //댓글 id를 비교해서 존재 여부 확인
         Comment comment = isPresentComment(id);
         if (null == comment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
+        //댓글의 nickname과 멤버의 nickname를 비교해서 작성자인지 확인
         if (!comment.getMember().getNickname().equals(member.getNickname())) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
