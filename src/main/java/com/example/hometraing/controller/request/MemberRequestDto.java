@@ -22,6 +22,12 @@ public class MemberRequestDto {
     @Pattern(regexp ="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,20}$" , message = "{password.option}" )
     private String password;
 
+
+    //회원가입 비번확인
+    @NotBlank(message = "{password.notblank}")
+    @Pattern(regexp ="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,20}$" , message = "{password.option}" )
+    private String passwordconfirm;
+
     // 회원가입 닉네임
     @NotBlank(message = "{password.notblank}")
     private String nickname;

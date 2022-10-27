@@ -415,11 +415,11 @@ public class BoardService {
         }
     }
 
-//    @Transactional
-//    public Board isPresentBoard(Long id) {
-//        Optional<Board> optionalBoard = boardRepository.findById(id);
-//        return optionalBoard.orElse(null);
-//    }
+    @Transactional
+    public Board isPresentBoard(Long id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        return optionalBoard.orElse(null);
+    }
 
 
 }
