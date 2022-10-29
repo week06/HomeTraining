@@ -13,8 +13,6 @@ import com.example.hometraing.repository.MemberRepository;
 import com.example.hometraing.repository.ReCommentRepository;
 import com.example.hometraing.security.jwt.TokenProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jdk.jshell.Snippet;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +54,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentBoard(boardId);
+        Board board = isPresentBoard(boardId);
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -121,7 +119,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = boardService.isPresentBoard(boardId);
+        Board board = isPresentBoard(boardId);
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -178,6 +176,13 @@ public class CommentService {
         commentRepository.delete(comment);
         return ResponseDto.success("댓글 삭제 완료");
     }
+
+    @Transactional
+    public Board isPresentBoard(Long id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        return optionalBoard.orElse(null);
+    }
+
 
     @Transactional
     public Comment isPresentComment(Long id) {

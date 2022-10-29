@@ -40,6 +40,7 @@ import java.util.UUID;
 import static com.example.hometraing.domain.QBoard.board;
 import static com.example.hometraing.domain.QComment.comment;
 import static com.example.hometraing.domain.QMedia.media;
+import static com.example.hometraing.domain.QMember.member;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -87,20 +88,20 @@ public class BoardService {
     public ResponseEntity<?> writeBoard(List<MultipartFile> multipartFile, HttpServletRequest request, BoardRequestDto boardRequestDto) {
 
         // 인증 정보 및 Token 여부가 정상적으로 확인이 되면 멤버 정보 저장
-        Member member = (Member)authorizeToken(request).getBody();
+//        Member member = (Member)authorizeToken(request).getBody();
 
         // 임의 멤버 생성
-//        Member member1 = jpaQueryFactory.selectFrom(member).where(member.id.eq(1L)).fetchOne();
+        Member member1 = jpaQueryFactory.selectFrom(member).where(member.id.eq(1L)).fetchOne();
 
         // member1 을 member로 바꿔야한다.
         // 게시글 엔티티에 빌더를 사용하여 작성한 정보값들 대입
         Board board =
                 Board.builder()
                         .title(boardRequestDto.getTitle()) // 입력 요청한 제목값
-                        .author(member.getNickname()) // 작성하고자 하는 멤버의 닉네임을 가져옴
+                        .author(member1.getNickname()) // 작성하고자 하는 멤버의 닉네임을 가져옴
                         .content(boardRequestDto.getContent()) // 입력 요청한 게시글 내용
                         .category(Category.partsValue(Integer.parseInt(boardRequestDto.getCategory()))) // 카테고리 값을 입력받으면 해당 값에 맞는 카테고리 명 대입
-                        .member(member) // 작성한 멤버의 객체 정보 대입, 멤버의 고유 Id로써 author 속성과 함께 구분할 수 있게끔 도와줌
+                        .member(member1) // 작성한 멤버의 객체 정보 대입, 멤버의 고유 Id로써 author 속성과 함께 구분할 수 있게끔 도와줌
                         .build();
 
         // 작성한 게시글 정보 저장
@@ -311,14 +312,14 @@ public class BoardService {
     // 게시글 전체 목록 조회
     public ResponseEntity<?> getAllBoard(HttpServletRequest request) {
         // 리프레시 토큰 여부 확인
-        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
-            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
-        }
-
-        // 액세스 토큰 여부 확인
-        if (null == request.getHeader("Authorization")) {
-            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
-        }
+//        if (!tokenProvider.validateToken(request.getHeader("Refresh-Token"))) {
+//            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+//        }
+//
+//        // 액세스 토큰 여부 확인
+//        if (null == request.getHeader("Authorization")) {
+//            return ResponseEntity.badRequest().body(ErrorCode.NOT_EXIST_TOKEN.getMessage());
+//        }
 
         // 작성된 모든 게시글들 모두 불러옴
         List<Board> boards = jpaQueryFactory

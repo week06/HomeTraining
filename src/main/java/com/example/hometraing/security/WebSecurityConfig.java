@@ -59,6 +59,9 @@ public class WebSecurityConfig {
                 .antMatchers("/api/member/signup").permitAll()
                 .antMatchers("/api/member/login").permitAll()
                 .antMatchers("/api/board/**").permitAll()
+                .antMatchers("/api/boards/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+
 //                .antMatchers("/api/boards/**").permitAll()
 //                .antMatchers("/board/public/**").permitAll()
 //                .antMatchers("/comment/public/**").permitAll()
