@@ -1,6 +1,5 @@
 package com.example.hometraing.service;
 
-
 import com.example.hometraing.controller.request.CommentRequestDto;
 import com.example.hometraing.controller.response.CommentResponseDto;
 import com.example.hometraing.controller.response.ResponseDto;
@@ -42,8 +41,7 @@ public class CommentService {
 
 
     @Transactional
-    public ResponseDto<?> createComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request){
-
+    public ResponseDto<?> createComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request) {
         if (null == request.getHeader("Authorization")) {
             return ResponseDto.fail("MEMBER_NOT_FOUND",
                     "로그인이 필요합니다.");
@@ -103,7 +101,7 @@ public class CommentService {
 
     //댓글 수정
     @Transactional
-    public ResponseDto<?> updateComment(Long boardId, CommentRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> updateComment(Long id, CommentRequestDto requestDto, HttpServletRequest request) {
         if (null == request.getHeader("Refresh-Token")) {
             return ResponseDto.fail("MEMBER_NOT_FOUND",
                     "로그인이 필요합니다.");
@@ -124,7 +122,7 @@ public class CommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
 
-        Comment comment = isPresentComment(boardId);
+        Comment comment = isPresentComment(id);
         if (null == comment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
@@ -144,7 +142,6 @@ public class CommentService {
                         .build()
         );
     }
-
 
     //댓글 삭제
     @Transactional

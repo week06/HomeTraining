@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,6 +58,7 @@ public class ReCommentService {
     //대댓글 조회
 //    @Transactional(readOnly = true)
 //    public ResponseDto<?> getAllReCommentByMember(HttpServletRequest request) {
+//
 //        Member member = validateMember(request);
 //        if (null == member) {
 //            return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
@@ -88,15 +91,16 @@ public class ReCommentService {
         }
 
         Comment comment = commentService.isPresentComment(requestDto.getCommentId());
-        if (null == comment)
+        if (null == comment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
+        }
 
         ReComment reComment = isPresentReComment(id);
         if (null == reComment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (reComment.validateMember(member)) {
+        if (!reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
 
@@ -121,21 +125,17 @@ public class ReCommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Comment comment = commentService.isPresentComment(id);
-        if (null == comment)
-            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
-
         ReComment reComment = isPresentReComment(id);
         if (null == reComment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
 
-        if (reComment.validateMember(member)) {
+        if (!reComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 삭제할 수 있습니다.");
         }
 
         reCommentRepository.delete(reComment);
-        return ResponseDto.success("success");
+        return ResponseDto.success("삭제완료");
     }
 
     @Transactional(readOnly = true)

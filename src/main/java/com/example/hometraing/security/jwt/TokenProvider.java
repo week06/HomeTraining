@@ -113,11 +113,9 @@ public class TokenProvider {
 
     public boolean validateToken(String token) {
         try {
-
             System.out.println("validate 속 token : " + token);
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {

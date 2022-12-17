@@ -16,10 +16,10 @@ public class CommentController {
     private final CommentService commentService;
 
     //댓글생성
-    @PostMapping(value = "/comment/{board_id}")
-    public ResponseDto<?> createComment(@PathVariable Long board_id, @RequestBody CommentRequestDto requestDto,
+    @PostMapping(value = "/comment/{boardId}")
+    public ResponseDto<?> createComment(@PathVariable Long boardId, @RequestBody CommentRequestDto requestDto,
                                         HttpServletRequest request) {
-        return commentService.createComment(board_id, requestDto, request);
+        return commentService.createComment(boardId, requestDto, request);
     }
 
 
