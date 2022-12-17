@@ -1,5 +1,6 @@
 package com.example.hometraing.security;
 
+import com.example.hometraing.config.CorsConfig;
 import com.example.hometraing.security.jwt.AccessDeniedHandlerException;
 import com.example.hometraing.security.jwt.AuthenticationEntryPointException;
 import com.example.hometraing.security.jwt.TokenProvider;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
@@ -28,6 +30,7 @@ public class WebSecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationEntryPointException authenticationEntryPointException;
     private final AccessDeniedHandlerException accessDeniedHandlerException;
+    private final CorsConfig corsConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,7 +41,6 @@ public class WebSecurityConfig {
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         String SECRET_KEY = "c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LWhhbmdoYWUtYXNzaWdubWVudC1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3Qtc2VjcmV0LWtleQo=";
-
         http.cors();
 
         http.csrf().disable()
@@ -51,11 +53,16 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-
                 .and()
                 .authorizeRequests()
                 // 인증 정보를 통해야지만 동작할 수 있는 url은 public 대신 auth 로 만든다.
-                .antMatchers("/public/**").permitAll()
+                .antMatchers("/api/member/signup").permitAll()
+                .antMatchers("/api/member/login").permitAll()
+                .antMatchers("/api/board/**").permitAll()
+                .antMatchers("/api/boards/**").permitAll()
+                .antMatchers("/api/**").permitAll()
+
+//                .antMatchers("/api/boards/**").permitAll()
 //                .antMatchers("/board/public/**").permitAll()
 //                .antMatchers("/comment/public/**").permitAll()
                 .antMatchers("/v2/api-docs",
@@ -74,6 +81,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
+                .addFilter(corsConfig.corsFilter())
                 .apply(new JwtSecurityConfiguration(SECRET_KEY, tokenProvider, userDetailsService));
 
         return http.build();

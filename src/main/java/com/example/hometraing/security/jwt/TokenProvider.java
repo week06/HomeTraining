@@ -1,5 +1,6 @@
 package com.example.hometraing.security.jwt;
 
+import com.example.hometraing.controller.response.ResponseDto;
 import com.example.hometraing.controller.response.TokenDto;
 import com.example.hometraing.domain.Member;
 import com.example.hometraing.domain.RefreshToken;
@@ -98,7 +99,7 @@ public class TokenProvider {
 //    return new UsernamePasswordAuthenticationToken(principal, "", authorities);
 //  }
 
-    public Member getUserFromAuthentication() {
+    public Member getMemberFromAuthentication() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -143,14 +144,14 @@ public class TokenProvider {
 
 
     // 로그아웃 시 refreshToken 을 삭제하는 메소드, responseDto 형식을 지양해야 할 수도 있기 때문에 일단 주석처리
-//    @Transactional
-//    public ResponseDto<?> deleteRefreshToken(Member member) {
-//        RefreshToken refreshToken = isPresentRefreshToken(member);
-//        if (null == refreshToken) {
-//            return ResponseDto.fail("TOKEN_NOT_FOUND", "존재하지 않는 Token 입니다.");
-//        }
-//
-//        refreshTokenRepository.delete(refreshToken);
-//        return ResponseDto.success("success");
-//    }
+    @Transactional
+    public ResponseDto<?> deleteRefreshToken(Member member) {
+        RefreshToken refreshToken = isPresentRefreshToken(member);
+        if (null == refreshToken) {
+            return ResponseDto.fail("TOKEN_NOT_FOUND", "존재하지 않는 Token 입니다.");
+        }
+
+        refreshTokenRepository.delete(refreshToken);
+        return ResponseDto.success("success");
+    }
 }
