@@ -117,7 +117,7 @@ public class CommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Board board = isPresentBoard(boardId);
+        Board board = isPresentBoard(id);
         if (null == board) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
